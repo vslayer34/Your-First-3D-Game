@@ -5,6 +5,12 @@ using System;
 namespace YourFirst3DGame.Scripts.Enemies;
 public partial class Mob : CharacterBody3D
 {
+	[ExportGroup("Required Nodes")]
+	[Export]
+	private VisibleOnScreenNotifier3D _visibilityNotifier;
+
+	[ExportGroup("")]
+
 	[ExportCategory("Mob speed")]
 	[Export]
 	private float _minSpeed = 10;
@@ -13,6 +19,11 @@ public partial class Mob : CharacterBody3D
 	private float _maxSpeed = 18;
 
 
+
+    public override void _Ready()
+    {
+		_visibilityNotifier.ScreenExited += OnVisibilityNotifierScreenExited;    
+    }
 
     public override void _PhysicsProcess(double delta)
     {
@@ -35,5 +46,10 @@ public partial class Mob : CharacterBody3D
 		// We then rotate the velocity vector based on the mob's Y rotation
     	// in order to move in the direction the mob is looking.
 		Velocity = Velocity.Rotated(Vector3.Up, Rotation.Y);
+	}
+
+	private void OnVisibilityNotifierScreenExited()
+	{
+		QueueFree();
 	}
 }

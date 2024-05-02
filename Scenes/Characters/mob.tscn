@@ -15,3 +15,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.275804, -0.0118281)
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.566772, -0.179626)
 shape = SubResource("BoxShape3D_f6ehr")
+
+[node name="VisibilityNotifier" type="VisibleOnScreenNotifier3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.61481, 0.297489)
+aabb = AABB(-1.08825, -0.524649, -1.65819, 2.1765, 1.0493, 3.31638)

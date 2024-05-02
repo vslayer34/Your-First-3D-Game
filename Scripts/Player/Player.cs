@@ -1,42 +1,77 @@
 using Godot;
+using YourFirst3DGame.Scripts.Helper;
 using System;
+
+namespace YourFirst3DGame.Scripts.Player;
 
 public partial class Player : CharacterBody3D
 {
-	public const float Speed = 5.0f;
-	public const float JumpVelocity = 4.5f;
+	[Export]
+	/// <summary>
+	/// Player Speed
+	/// </summary>
+	public float Speed { get; private set; } = 14.0f;
 
-	// Get the gravity from the project settings to be synced with RigidBody nodes.
-	public float gravity = ProjectSettings.GetSetting("physics/3d/default_gravity").AsSingle();
+	[Export]
+	/// <summary>
+	/// Downard fall speed when the player is in the air
+	/// </summary>
+	public float FallAcceleration { get; private set; } = 75.0f;
 
-	public override void _PhysicsProcess(double delta)
-	{
-		Vector3 velocity = Velocity;
 
-		// Add the gravity.
+	private Vector3 _targetVelocity = Vector3.Zero;
+	private Vector3 _inputDirection;
+
+	private Node3D _pivot;
+
+
+    
+	public override void _Ready()
+    {
+        _pivot = GetNode<Node3D>("Pivot");
+    }
+
+    public override void _PhysicsProcess(double delta)
+    {
+        _inputDirection = Vector3.Zero;
+
+		if (Input.IsActionPressed(InputActionNames.MOVE_RIGHT))
+		{
+			_inputDirection.X += 1.0f;
+		}
+		if (Input.IsActionPressed(InputActionNames.MOVE_LEFT))
+		{
+			_inputDirection.X -= 1.0f;
+		}
+		if (Input.IsActionPressed(InputActionNames.MOVE_BACKWARD))
+		{
+			_inputDirection.Z += 1.0f;
+		}
+		if (Input.IsActionPressed(InputActionNames.MOVE_FORWARD))
+		{
+			_inputDirection.Z -= 1.0f;
+		}
+
+
+		// Normalize the vectore and set the rotation of the node accordingly
+		if (_inputDirection != Vector3.Zero)
+		{
+			_inputDirection = _inputDirection.Normalized();
+			_pivot.Basis = Basis.LookingAt(_inputDirection);
+		}
+
+		// Set the ground velocity
+		_targetVelocity.X = _inputDirection.X * Speed;
+		_targetVelocity.Z = _inputDirection.Z * Speed;
+
+		// Sewt the fall velocity if the player is on the air
 		if (!IsOnFloor())
-			velocity.Y -= gravity * (float)delta;
-
-		// Handle Jump.
-		if (Input.IsActionJustPressed("ui_accept") && IsOnFloor())
-			velocity.Y = JumpVelocity;
-
-		// Get the input direction and handle the movement/deceleration.
-		// As good practice, you should replace UI actions with custom gameplay actions.
-		Vector2 inputDir = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
-		Vector3 direction = (Transform.Basis * new Vector3(inputDir.X, 0, inputDir.Y)).Normalized();
-		if (direction != Vector3.Zero)
 		{
-			velocity.X = direction.X * Speed;
-			velocity.Z = direction.Z * Speed;
-		}
-		else
-		{
-			velocity.X = Mathf.MoveToward(Velocity.X, 0, Speed);
-			velocity.Z = Mathf.MoveToward(Velocity.Z, 0, Speed);
+			_targetVelocity.Y -= FallAcceleration * (float)delta;
 		}
 
-		Velocity = velocity;
+		// Finaly move the character
+		Velocity = _targetVelocity;
 		MoveAndSlide();
-	}
+    }
 }

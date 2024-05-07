@@ -2,7 +2,7 @@ using Godot;
 using YourFirst3DGame.Scripts.Helper;
 using System;
 
-namespace YourFirst3DGame.Scripts.Player;
+namespace YourFirst3DGame.Scripts.Characters;
 
 public partial class Player : CharacterBody3D
 {

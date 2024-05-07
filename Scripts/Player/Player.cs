@@ -58,19 +58,19 @@ public partial class Player : CharacterBody3D
     {
         _inputDirection = Vector3.Zero;
 
-		if (Input.IsActionPressed(InputActionNames.MOVE_RIGHT))
+		if (Input.IsActionPressed(InputActionNames.User.MOVE_RIGHT))
 		{
 			_inputDirection.X += 1.0f;
 		}
-		if (Input.IsActionPressed(InputActionNames.MOVE_LEFT))
+		if (Input.IsActionPressed(InputActionNames.User.MOVE_LEFT))
 		{
 			_inputDirection.X -= 1.0f;
 		}
-		if (Input.IsActionPressed(InputActionNames.MOVE_BACKWARD))
+		if (Input.IsActionPressed(InputActionNames.User.MOVE_BACKWARD))
 		{
 			_inputDirection.Z += 1.0f;
 		}
-		if (Input.IsActionPressed(InputActionNames.MOVE_FORWARD))
+		if (Input.IsActionPressed(InputActionNames.User.MOVE_FORWARD))
 		{
 			_inputDirection.Z -= 1.0f;
 		}
@@ -93,7 +93,7 @@ public partial class Player : CharacterBody3D
 			_targetVelocity.Y -= FallAcceleration * (float)delta;
 		}
 
-		if (IsOnFloor() && Input.IsActionJustPressed(InputActionNames.JUMP))
+		if (IsOnFloor() && Input.IsActionJustPressed(InputActionNames.User.JUMP))
 		{
 			_targetVelocity.Y = JumpImpulse;
 		}

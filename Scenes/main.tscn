@@ -1,8 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://v4ykn3ieiyil"]
+[gd_scene load_steps=11 format=3 uid="uid://v4ykn3ieiyil"]
 
 [ext_resource type="Script" path="res://Scripts/Main.cs" id="1_2sucd"]
 [ext_resource type="PackedScene" uid="uid://bq3ww3uosxg13" path="res://Scenes/Characters/player.tscn" id="1_n5l1x"]
 [ext_resource type="PackedScene" uid="uid://eelbnm08qbr1" path="res://Scenes/Characters/mob.tscn" id="2_vtf2k"]
+[ext_resource type="FontFile" uid="uid://cop6jtel8xovh" path="res://Assets/Fonts/Montserrat-Medium.ttf" id="4_8iwhi"]
+[ext_resource type="Script" path="res://Scripts/UI/ScoreLabel.cs" id="5_vej5f"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ajydn"]
 size = Vector3(60, 2, 60)
@@ -10,17 +12,21 @@ size = Vector3(60, 2, 60)
 [sub_resource type="BoxMesh" id="BoxMesh_1ga3j"]
 size = Vector3(60, 2, 60)
 
-[sub_resource type="CylinderMesh" id="CylinderMesh_1rn7l"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_l6nwu"]
-albedo_color = Color(1, 0.172549, 1, 1)
-
 [sub_resource type="Curve3D" id="Curve3D_suwdx"]
 _data = {
 "points": PackedVector3Array(0, 0, 0, 0, 0, 0, 16.7003, 0, -13.0692, 0, 0, 0, 0, 0, 0, -14.9989, 0, -13.0152, 0, 0, 0, 0, 0, 0, -15.0529, 0, 13.0774, 0, 0, 0, 0, 0, 0, 16.5925, 0, 12.9156, 0, 0, 0, 0, 0, 0, 16.7003, 0, -13.0692),
 "tilts": PackedFloat32Array(0, 0, 0, 0, 0)
 }
 point_count = 5
+
+[sub_resource type="Theme" id="Theme_k2n7t"]
+default_font = ExtResource("4_8iwhi")
+default_font_size = 22
+
+[sub_resource type="LabelSettings" id="LabelSettings_qmgit"]
+font_size = 25
+outline_size = 5
+outline_color = Color(0, 0, 0, 1)
 
 [node name="Main" type="Node" node_paths=PackedStringArray("MobTimer", "SpawnLocation", "Player")]
 script = ExtResource("1_2sucd")
@@ -54,28 +60,6 @@ projection = 1
 size = 19.0
 far = 100.0
 
-[node name="Cyliners" type="Node" parent="."]
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Cyliners"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.5939, 0, 12.8678)
-mesh = SubResource("CylinderMesh_1rn7l")
-surface_material_override/0 = SubResource("StandardMaterial3D_l6nwu")
-
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="Cyliners"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.5939, 0, -13.1322)
-mesh = SubResource("CylinderMesh_1rn7l")
-surface_material_override/0 = SubResource("StandardMaterial3D_l6nwu")
-
-[node name="MeshInstance3D3" type="MeshInstance3D" parent="Cyliners"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15.0341, 0, 12.8678)
-mesh = SubResource("CylinderMesh_1rn7l")
-surface_material_override/0 = SubResource("StandardMaterial3D_l6nwu")
-
-[node name="MeshInstance3D4" type="MeshInstance3D" parent="Cyliners"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15.0341, 0, -13.1322)
-mesh = SubResource("CylinderMesh_1rn7l")
-surface_material_override/0 = SubResource("StandardMaterial3D_l6nwu")
-
 [node name="SpawnPath" type="Path3D" parent="."]
 curve = SubResource("Curve3D_suwdx")
 
@@ -85,3 +69,22 @@ transform = Transform3D(-0.00170068, 0, 0.999999, 0, 1, 0, -0.999999, 0, -0.0017
 [node name="MobTimer" type="Timer" parent="."]
 wait_time = 0.5
 autostart = true
+
+[node name="UserInterface" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_k2n7t")
+
+[node name="ScoreLabel" type="Label" parent="UserInterface"]
+layout_mode = 1
+offset_left = 41.0
+offset_top = 38.0
+offset_right = 129.0
+offset_bottom = 61.0
+text = "Score: 0"
+label_settings = SubResource("LabelSettings_qmgit")
+script = ExtResource("5_vej5f")

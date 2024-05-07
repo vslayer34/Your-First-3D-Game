@@ -2,6 +2,7 @@ using Godot;
 using System;
 using YourFirst3DGame.Scripts.Characters;
 using YourFirst3DGame.Scripts.Enemies;
+using YourFirst3DGame.Scripts.UI;
 
 namespace YourFirst3DGame.Scripts;
 public partial class Main : Node
@@ -18,6 +19,9 @@ public partial class Main : Node
 
 	[Export]
 	public Player Player { get; private set; }
+
+	[Export]
+	public ScoreLabel ScoreLabel { get; private set; }
 
 
 
@@ -49,6 +53,9 @@ public partial class Main : Node
 		
 		mobNode.Initialize(SpawnLocation.Position, Player != null ? Player.Position : Vector3.Zero);
 		AddChild(mobNode);
+
+		// We connect the mob to the score label to update the score upon squashing one.
+		mobNode.Squashed += ScoreLabel.OnMobSquashed;
 	}
 
 	/// <summary>

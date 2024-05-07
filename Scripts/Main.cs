@@ -23,6 +23,9 @@ public partial class Main : Node
 	[Export]
 	public ScoreLabel ScoreLabel { get; private set; }
 
+	[Export]
+	public ColorRect RetryScreen { get; private set; }
+
 
 
     // Game Loop Methods---------------------------------------------------------------------------
@@ -31,6 +34,8 @@ public partial class Main : Node
     {
         MobTimer.Timeout += OnMobTimerTimeOut;
 		Player.Hit += OnPlayerHit;
+
+		RetryScreen.Hide();
     }
 
     public override void _ExitTree()
@@ -64,5 +69,6 @@ public partial class Main : Node
 	private void OnPlayerHit()
 	{
 		MobTimer.Stop();
+		RetryScreen.Show();
 	}
 }

@@ -26,21 +26,36 @@ public partial class Main : Node
     public override void _Ready()
     {
         MobTimer.Timeout += OnMobTimerTimeOut;
+		Player.Hit += OnPlayerHit;
+    }
+
+    public override void _ExitTree()
+    {
+        Player.Hit -= OnPlayerHit;
     }
 
     // Signal Methods------------------------------------------------------------------------------
 
-	/// <summary>
-	/// Set a new mob position and direction every time out and spawn it to the scene
-	/// </summary>
-	private void OnMobTimerTimeOut()
+    /// <summary>
+    /// Set a new mob position and direction every time out and spawn it to the scene
+    /// </summary>
+    private void OnMobTimerTimeOut()
 	{
 		var mobNode = MobScene.Instantiate() as Mob;
 
 		// give the pathfollow3D a random value
 		SpawnLocation.ProgressRatio = GD.Randf();
 
-		mobNode.Initialize(SpawnLocation.Position, Player.Position);
+		
+		mobNode.Initialize(SpawnLocation.Position, Player != null ? Player.Position : Vector3.Zero);
 		AddChild(mobNode);
+	}
+
+	/// <summary>
+	/// Stop spawning enemies when the player dies
+	/// </summary>
+	private void OnPlayerHit()
+	{
+		MobTimer.Stop();
 	}
 }

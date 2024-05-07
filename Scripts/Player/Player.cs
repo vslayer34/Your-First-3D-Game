@@ -7,6 +7,17 @@ namespace YourFirst3DGame.Scripts.Characters;
 
 public partial class Player : CharacterBody3D
 {
+	[Signal]
+	public delegate void HitEventHandler();
+
+
+
+	[ExportGroup("Required Nodes")]
+	[Export]
+	public Area3D MobDetector { get; private set; }
+
+
+	[ExportCategory("Speed and Gravity")]
 	[Export]
 	/// <summary>
 	/// Player Speed
@@ -18,6 +29,7 @@ public partial class Player : CharacterBody3D
 	/// Downard fall speed when the player is in the air
 	/// </summary>
 	public float FallAcceleration { get; private set; } = 75.0f;
+
 
 	[ExportCategory("Jump and Bounce")]
 	[Export]
@@ -34,9 +46,12 @@ public partial class Player : CharacterBody3D
 
 
     
+	// Game Loop Methods---------------------------------------------------------------------------
+
 	public override void _Ready()
     {
         _pivot = GetNode<Node3D>("Pivot");
+		MobDetector.BodyEntered += OnMobDetectorBodyEntered;
     }
 
     public override void _PhysicsProcess(double delta)
@@ -116,5 +131,21 @@ public partial class Player : CharacterBody3D
 				}
 			}
 		}
+	}
+
+	/// <summary>
+	/// Emit hit signal and delete the player node
+	/// </summary>
+	private void Die()
+	{
+		EmitSignal(SignalName.Hit);
+		QueueFree();
+	}
+
+	// Signal Methods------------------------------------------------------------------------------
+
+	private void OnMobDetectorBodyEntered(Node3D body)
+	{
+		Die();
 	}
 }

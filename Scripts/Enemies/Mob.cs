@@ -17,6 +17,9 @@ public partial class Mob : CharacterBody3D
 	[Export]
 	private VisibleOnScreenNotifier3D _visibilityNotifier;
 
+	[Export]
+	public AnimationPlayer AnimationPlayer { get; private set; }
+
 	[ExportGroup("")]
 
 	[ExportCategory("Mob speed")]
@@ -50,6 +53,9 @@ public partial class Mob : CharacterBody3D
 		// Calculate random spped and apply it to the velocity of the player
 		int randomSpeed = (int)GD.RandRange(_minSpeed, _maxSpeed);
 		Velocity = Vector3.Forward * randomSpeed;
+
+		// randomize speed scale of the animation according to the mob speed
+		AnimationPlayer.SpeedScale = randomSpeed / _minSpeed;
 
 		// We then rotate the velocity vector based on the mob's Y rotation
     	// in order to move in the direction the mob is looking.

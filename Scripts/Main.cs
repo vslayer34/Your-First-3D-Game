@@ -2,6 +2,7 @@ using Godot;
 using System;
 using YourFirst3DGame.Scripts.Characters;
 using YourFirst3DGame.Scripts.Enemies;
+using YourFirst3DGame.Scripts.Helper;
 using YourFirst3DGame.Scripts.UI;
 
 namespace YourFirst3DGame.Scripts;
@@ -36,6 +37,15 @@ public partial class Main : Node
 		Player.Hit += OnPlayerHit;
 
 		RetryScreen.Hide();
+    }
+
+	// Reload the game scene if the user pressed enter whil on retry screen
+    public override void _UnhandledInput(InputEvent @event)
+    {
+        if (@event.IsActionPressed(InputActionNames.BuiltIn.UI_ACCEPT) && RetryScreen.Visible)
+		{
+			GetTree().ReloadCurrentScene();
+		}
     }
 
     public override void _ExitTree()

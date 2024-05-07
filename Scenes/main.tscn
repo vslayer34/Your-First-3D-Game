@@ -28,13 +28,14 @@ font_size = 25
 outline_size = 5
 outline_color = Color(0, 0, 0, 1)
 
-[node name="Main" type="Node" node_paths=PackedStringArray("MobTimer", "SpawnLocation", "Player", "ScoreLabel")]
+[node name="Main" type="Node" node_paths=PackedStringArray("MobTimer", "SpawnLocation", "Player", "ScoreLabel", "RetryScreen")]
 script = ExtResource("1_2sucd")
 MobScene = ExtResource("2_vtf2k")
 MobTimer = NodePath("MobTimer")
 SpawnLocation = NodePath("SpawnPath/SpawnLocation")
 Player = NodePath("Player")
 ScoreLabel = NodePath("UserInterface/ScoreLabel")
+RetryScreen = NodePath("UserInterface/RetryBG")
 
 [node name="Ground" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)

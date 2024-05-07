@@ -7,6 +7,8 @@
 radius = 0.8
 
 [node name="Player" type="CharacterBody3D"]
+collision_layer = 2
+collision_mask = 5
 script = ExtResource("1_fduhq")
 
 [node name="Pivot" type="Node3D" parent="."]

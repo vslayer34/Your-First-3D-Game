@@ -18,6 +18,9 @@ public partial class Player : CharacterBody3D
 	/// </summary>
 	public float FallAcceleration { get; private set; } = 75.0f;
 
+	[Export]
+	public float JumpImpulse { get; private set; } = 20.0f;
+
 
 	private Vector3 _targetVelocity = Vector3.Zero;
 	private Vector3 _inputDirection;
@@ -70,8 +73,14 @@ public partial class Player : CharacterBody3D
 			_targetVelocity.Y -= FallAcceleration * (float)delta;
 		}
 
+		if (IsOnFloor() && Input.IsActionJustPressed(InputActionNames.JUMP))
+		{
+			_targetVelocity.Y = JumpImpulse;
+		}
+
 		// Finaly move the character
 		Velocity = _targetVelocity;
+
 		MoveAndSlide();
     }
 }

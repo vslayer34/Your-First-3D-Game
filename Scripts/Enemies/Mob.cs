@@ -5,6 +5,14 @@ using System;
 namespace YourFirst3DGame.Scripts.Enemies;
 public partial class Mob : CharacterBody3D
 {
+	[Signal]
+	/// <summary>
+	/// Emited when the mob is jumped on by the player
+	/// </summary>
+	public delegate void SquashedEventHandler();
+
+
+
 	[ExportGroup("Required Nodes")]
 	[Export]
 	private VisibleOnScreenNotifier3D _visibilityNotifier;
@@ -48,6 +56,13 @@ public partial class Mob : CharacterBody3D
 		Velocity = Velocity.Rotated(Vector3.Up, Rotation.Y);
 	}
 
+	public void Squash()
+	{
+		EmitSignal(SignalName.Squashed);
+		QueueFree();
+	}
+
+	// Signal Methods------------------------------------------------------------------------------
 	private void OnVisibilityNotifierScreenExited()
 	{
 		QueueFree();

@@ -1,6 +1,7 @@
 using Godot;
 using YourFirst3DGame.Scripts.Helper;
 using System;
+using YourFirst3DGame.Scripts.Enemies;
 
 namespace YourFirst3DGame.Scripts.Characters;
 
@@ -18,8 +19,12 @@ public partial class Player : CharacterBody3D
 	/// </summary>
 	public float FallAcceleration { get; private set; } = 75.0f;
 
+	[ExportCategory("Jump and Bounce")]
 	[Export]
 	public float JumpImpulse { get; private set; } = 20.0f;
+
+	[Export]
+	public float BounceImpulse { get; private set; } = 16.0f;
 
 
 	private Vector3 _targetVelocity = Vector3.Zero;
@@ -81,6 +86,35 @@ public partial class Player : CharacterBody3D
 		// Finaly move the character
 		Velocity = _targetVelocity;
 
+		CheckCollisions();
+
 		MoveAndSlide();
     }
+
+
+	// Member Methods------------------------------------------------------------------------------
+
+	private void CheckCollisions()
+	{
+		// Iterate throught the collision that occured this frame
+		for (int i = 0; i < GetSlideCollisionCount(); i++)
+		{
+			// Get each collision that happened this call
+			var collision = GetSlideCollision(i);
+
+
+			// if collision is mob and not the ground
+			if (collision.GetCollider() is Mob mob)
+			{
+				// the dot product help to determine if the player is hitting the mob from above
+				// if so the player squach the mob and bounce up
+				if (Vector3.Up.Dot(collision.GetNormal()) > 0.1f)
+				{
+					mob.Squash();
+					_targetVelocity.Y = BounceImpulse;
+					break;				// to prevent multible calls in the same frame for the same collision
+				}
+			}
+		}
+	}
 }

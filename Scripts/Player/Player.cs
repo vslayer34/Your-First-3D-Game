@@ -16,6 +16,9 @@ public partial class Player : CharacterBody3D
 	[Export]
 	public Area3D MobDetector { get; private set; }
 
+	[Export]
+	public AnimationPlayer AnimationPlayer { get; private set; }
+
 
 	[ExportCategory("Speed and Gravity")]
 	[Export]
@@ -81,6 +84,11 @@ public partial class Player : CharacterBody3D
 		{
 			_inputDirection = _inputDirection.Normalized();
 			_pivot.Basis = Basis.LookingAt(_inputDirection);
+			AnimationPlayer.SpeedScale = 4.0f;
+		}
+		else
+		{
+			AnimationPlayer.SpeedScale = 1.0f;
 		}
 
 		// Set the ground velocity
@@ -104,6 +112,9 @@ public partial class Player : CharacterBody3D
 		CheckCollisions();
 
 		MoveAndSlide();
+
+		// make the character arc when jumping
+		_pivot.Rotation = new Vector3(Mathf.Pi / 6.0f * Velocity.Y / JumpImpulse, _pivot.Rotation.Y, _pivot.Rotation.Z);
     }
 
 

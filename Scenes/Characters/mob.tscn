@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://eelbnm08qbr1"]
 
-[ext_resource type="Script" path="res://Scripts/Enemies/Mob.cs" id="1_jc5q0"]
+[ext_resource type="Script" uid="uid://dcxq6vrsysrf6" path="res://Scripts/Enemies/Mob.cs" id="1_jc5q0"]
 [ext_resource type="PackedScene" uid="uid://dwrwf50cscetr" path="res://Assets/Arts/mob.glb" id="1_ox56v"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_f6ehr"]
@@ -37,7 +37,7 @@ tracks/1/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_vj0je"]
 _data = {
-"Float": SubResource("Animation_vfy3b")
+&"Float": SubResource("Animation_vfy3b")
 }
 
 [node name="Mob" type="CharacterBody3D" node_paths=PackedStringArray("_visibilityNotifier", "AnimationPlayer") groups=["Enemy"]]

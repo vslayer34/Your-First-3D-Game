@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://bq3ww3uosxg13"]
 
 [ext_resource type="PackedScene" uid="uid://crhbwrh7drjtc" path="res://Assets/Arts/player.glb" id="1_0sghn"]
-[ext_resource type="Script" path="res://Scripts/Player/Player.cs" id="1_fduhq"]
+[ext_resource type="Script" uid="uid://d4fuinihmhvqe" path="res://Scripts/Player/Player.cs" id="1_fduhq"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_ieedc"]
 radius = 0.8
@@ -68,8 +68,8 @@ tracks/1/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_d5fhj"]
 _data = {
-"Float": SubResource("Animation_6wxq2"),
-"RESET": SubResource("Animation_51srl")
+&"Float": SubResource("Animation_6wxq2"),
+&"RESET": SubResource("Animation_51srl")
 }
 
 [node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("MobDetector", "AnimationPlayer")]
